@@ -74,7 +74,7 @@ Contribuições são bem-vindas. Sinta-se à vontade para fazer um fork do repos
 
 
 ## Contato
-- [João Pedro]: Autor do projeto
+- [João Pedro]: Autor do projeto.
 
 - [Rafael Ribas]: Instrutor de Programação Web Front-End.
 
