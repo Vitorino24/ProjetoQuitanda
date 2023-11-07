@@ -5,31 +5,35 @@ import uuid
 app = Flask(__name__)
 app.secret_key = "quitandazezinho"
 
-# FUNÇÃO PARA VERIFICAR SESSÃO
+usuario = "usuario"
+senha = "senha"
+login = False
+
+#FUNCAO PARA VERIFICAR SESSÃO
 def verifica_sessao():
     if "login" in session and session["login"]:
         return True
     else:
         return False
 
-# CONEXÃO COM O BANCO DE DADOS
+#CONEXAO COM O BANCO DE DADOS
 def conecta_database():
     conexao = sql.connect("db_quitanda.db")
     conexao.row_factory = sql.Row
     return conexao
 
-# INICIAR O BANCO DE DADOS
+#INICIAR O BANCO DE DADOS
 def iniciar_db():
     conexao = conecta_database()
     with app.open_resource('esquema.sql', mode='r') as comandos:
         conexao.cursor().executescript(comandos.read())
         conexao.commit()
-    conexao.close()
+        conexao.close()
 
-# ROTA DA PÁGINA INICIAL
+#ROTA DA PÁGINA INICIAL
 @app.route("/")
 def index():
-    iniciar_db()
+    iniciar_db
     conexao = conecta_database()
     produtos = conexao.execute('SELECT * FROM produtos ORDER BY id_prod DESC').fetchall()
     conexao.close()
@@ -37,4 +41,4 @@ def index():
     return render_template("home.html", produtos=produtos, title=title)
 
 # FINAL DO CODIGO - EXECUTANDO O SERVIDOR
-app.run( degub=True )
+app.run( debug=True )
