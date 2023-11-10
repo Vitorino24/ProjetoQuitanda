@@ -87,8 +87,7 @@ def acesso():
         session["login"] = True
         return redirect('/adm')
     else:
-        return
-render_template("login.html",msg="Usuário/Senha estão incorretos! ")
+        return render_template("login.html",msg="Usuário/Senha estão incorretos! ")
 
 
 # ROTA DA PÁGINA INICIAL
