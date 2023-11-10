@@ -30,7 +30,41 @@ def iniciar_db():
     conexao.commit()
     conexao.close()
 
+#código do LOGOUT
+@app.route("/logout")
+def logout():
+    global login
+    login = False 
+    session.clear()
+    return redirect('/')
 
+#Rota da pág de cadastro no banco
+@app.route("/cadastro",methods=["post"])
+def cadastro():
+    if verifica_sessao():
+        nome_prod=request.form['nome_prod']
+        desc_prod=request.form['desc_prod']
+        preco_prod=request.form['preco_prod']
+        img_prod=request.files['img_prod']
+        id_foto=str(uuid.uuid4().hex)
+        filename=id_foto+nome_prod+'.png'
+        img_prod.save("static/img/produtos/"+filename)
+        conexao = conecta_database()
+        conexao.execute('INSERT INTO produtos (nome_prod, desc_prod, preco_prod, img_prod) VALUES (?, ?, ?, ?)',(nome_prod, desc_prod, preco_prod, filename))
+        conexao.commit()
+        conexao.close()
+        return redirect("/adm")
+    else:
+        return redirect("/login")
+
+# rota da página de cadastro
+@app.route("/cadprodutos")
+def cadprodutos():
+    if verifica_sessao():
+        title = "Cadastro de produtos"
+        return render_template("cadprodutos.html",title=title)
+    else:
+        return redirect("/login")
 #Rota da pág ADM
 @app.route("/adm")
 def adm():
