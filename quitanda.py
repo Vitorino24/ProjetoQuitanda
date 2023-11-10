@@ -30,6 +30,20 @@ def iniciar_db():
     conexao.commit()
     conexao.close()
 
+
+#Rota da pág ADM
+@app.route("/adm")
+def adm():
+    if verifica_sessao():
+        iniciar_db()
+        conexao = conecta_database()
+        produtos = conexao.execute('SELECT * FROM produtos ORDER BY id_prod DESC').fetchall()
+        conexao.close()
+        title = render_template("adm.html", produtos=produtos, title=title)
+    else:
+        return redirect("/login")
+
+
 # ROTA DA PÁGINA INICIAL
 @app.route("/")
 def index():
