@@ -60,7 +60,7 @@ def editar(id_prod):
         produtos = conexao.execute('SELECT * FROM produtos WHERE id_prod = ?',(id_prod,)).fetchall()
         conexao.close()
         title = "Edição de produtos"
-        return render_template("editprdutos.html",produtos=produtos, title=title)
+        return render_template("editprodutos.html",produtos=produtos, title=title)
     else:
         return redirect("/login")
     
@@ -71,12 +71,12 @@ def editprod():
     nome_prod=request.form['nome_prod']
     desc_prod=request.form['desc_prod']
     preco_prod=request.form['preco_prod']
-    img_prod=request.form['img_prod']
+    img_prod=request.files['img_prod']
     id_foto=str(uuid.uuid4().hex)
     filename=id_foto+nome_prod+'.png'
-    img_prod.save("static/img/prdutos/"+filename)
+    img_prod.save("static/img/produtos/"+filename)
     conexao = conecta_database()
-    conexao.execute('UPDATE produtos SET nome_prod = ?, desc_prod = ?, preco_prod = ?, img_prod = ? WHERE id_prod = ?',(nome_prod,desc_prod,preco_prod,filename,id_prod))
+    conexao.execute('UPDATE produtos SET nome_prod = ?, desc_prod = ?, preco_prod = ?, img_prod = ? WHERE id_prod = ?',(nome_prod, desc_prod, preco_prod, filename, id_prod))
     conexao.commit()
     conexao.close()
     return redirect('/adm')
@@ -94,7 +94,7 @@ def cadastro():
         filename=id_foto+nome_prod+'.png'
         img_prod.save("static/img/produtos/"+filename)
         conexao = conecta_database()
-        conexao.execute('INSERT INTO produtos (nome_prod, desc_prod, preco_prod, img_prod) VALUES (?, ?, ?, ?)',(nome_prod, desc_prod, preco_prod, filename))
+        conexao.execute('INSERT INTO produtos (nome_prod, desc_prod, preco_prod, img_prod) VALUES (?, ?, ?, ?)', (nome_prod, desc_prod, preco_prod, filename))
         conexao.commit()
         conexao.close()
         return redirect("/adm")
