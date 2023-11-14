@@ -160,7 +160,7 @@ def login():
 #ROTA DA PÁGINA LOGIN
 @app.route("/quemsomos")
 def quemsomos():
-    title="Quem Somos"
+    title="QuemSomos"
     return render_template("QuemSomos.html",title=title)
 # FINAL DO CODIGO - EXECUTANDO O SERVIDOR
 app.run(debug=True)
